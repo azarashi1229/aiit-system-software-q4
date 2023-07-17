@@ -38,7 +38,7 @@ done
 if [ $# -eq 1 ]; then
   echo "$1"
 else
-  # shellcheck disable=SC2046
   # shellcheck disable=SC2005
+  # shellcheck disable=SC2046
   echo $(gcd "$1" "$2")
 fi
