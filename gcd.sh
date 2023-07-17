@@ -36,8 +36,9 @@ done
 
 # 引数が1つの場合はその数を返す、2つの場合は最大公約数を求める
 if [ $# -eq 1 ]; then
-  echo $1
+  echo "$1"
 else
   # shellcheck disable=SC2046
-  echo $(gcd "$1" $2)
+  # shellcheck disable=SC2005
+  echo $(gcd "$1" "$2")
 fi
