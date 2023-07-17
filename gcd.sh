@@ -4,12 +4,13 @@
 gcd() {
   a=$1
   b=$2
-  while [ $b -ne 0 ]; do
+  while [ "$b" -ne 0 ]; do
     t=$b
+    # shellcheck disable=SC2004
     b=$(( $a % $b ))
     a=$t
   done
-  echo $a
+  echo "$a"
 }
 
 # 引数が1つか2つあることを確認
@@ -18,11 +19,17 @@ if [ $# -lt 1 ] || [ $# -gt 2 ]; then
   exit 1
 fi
 
-# 引数が整数であることを確認
+# 引数が整数であること、かつ一定の範囲内であることを確認
 re='^[0-9]+$'
+max_int=9223372036854775807  # 64-bit signed integerの最大値
+# shellcheck disable=SC2068
 for arg in $@; do
   if ! [[ $arg =~ $re ]]; then
     echo "Error: Arguments must be integers."
+    exit 1
+  fi
+  if (( arg > max_int )); then
+    echo "Error: Argument is too large."
     exit 1
   fi
 done
@@ -31,5 +38,6 @@ done
 if [ $# -eq 1 ]; then
   echo $1
 else
-  echo $(gcd $1 $2)
+  # shellcheck disable=SC2046
+  echo $(gcd "$1" $2)
 fi
